@@ -77,7 +77,7 @@ def update_graph(plot_id, graph_data, resolution, title, color_map, axis_map, cl
 
 def get_graph_data(src_path, sps_overide):
     csvp = read_csvp(src_path.replace('csv', 'csvp'), sps_overide=sps_overide)
-    df = pd.read_csv(src_path, header=None)
+    df = pd.read_csv(src_path, header=None, delimiter=',', low_memory=False,engine = 'c')
     
     return df, csvp
 
