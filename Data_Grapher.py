@@ -21,6 +21,8 @@ axis_label = ['X', 'Y', 'Z']
 raw_data_list = []
 master_time = None
 master_cursors = []
+master_color_map={}
+master_point_annoations = False
 
 def get_label_str(data_index, axis_index):
     return data_label[data_index] + ' ' + axis_label[axis_index]
@@ -36,7 +38,9 @@ def remove_all(save=[]):
             plt.figure(plot_id)
             plt.close()
     
-def graph_data(src_paths, resolution, moving_avg_window, color_map, axis_map, update=False, plot_id=0, sps_overide=False):
+def graph_data(src_paths, resolution, moving_avg_window, color_map, axis_map, update=False, plot_id=0, sps_overide=False, point_annoations=False):
+    global master_point_annoations
+    master_point_annoations = point_annoations
 
     # title_base = src_path.split('/')[-1].split('\\')[-1]
     if update == False:
@@ -76,7 +80,8 @@ def update_graph(plot_id, graph_data, resolution, title, color_map, axis_map, cl
     line_list = []
     global master_time
     global raw_data_list
-
+    global master_color_map
+    master_color_map = color_map
     for test_index, key in enumerate(graph_data.keys()):
         df = graph_data[key]['df']
 
@@ -116,10 +121,26 @@ def update_graph(plot_id, graph_data, resolution, title, color_map, axis_map, cl
     # master_annot.set_visible(False)
     
     def show_datapoints(sel, data_index, axis_index):
+        global master_point_annoations
+        if master_point_annoations == False:
+            sel.annotation.remove()
+            return
+
+        text = sel.annotation.get_text().split(' ')
+        print(type(sel.annotation))
+        axis_map_letter = {
+            'X':0,
+            'Y':1,
+            'Z':2
+        }
+
+        data_index, axis_index = int(text[1].replace(':', ''))-1, axis_map_letter[text[2][0]]
         print(f'{data_index } : {axis_index}')
+
         xi, yi = sel[0], sel[0]
         xi, yi = xi._xorig.tolist(), yi._yorig.tolist()
-        sel.annotation.set_text('x: '+ str(xi[round(sel.target.index)]) +'\n'+ 'y: '+ str(yi[round(sel.target.index)])) 
+        sel.annotation.set_backgroundcolor(master_color_map[data_index][axis_index])
+        sel.annotation.set_text('x: '+ str(xi[round(sel.index)]) +'\n'+ 'y: '+ str(yi[round(sel.index)])) 
 
     global master_cursors
     master_cursors = []
