@@ -56,7 +56,7 @@ layout = [
     ]
 
 # Create the window
-window = sg.Window("Data Clipping Tool", layout)
+window = sg.Window("Data Grapher", layout)
 windows = []
 w = None
 # Create an event loop
