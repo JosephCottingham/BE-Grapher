@@ -4,7 +4,7 @@ import csv, random
 import matplotlib.pyplot as plt
 import mplcursors
 
-Bitcount_High = 65535
+Bitcount_High = 32767
 G = 9.8
 
 plot_ids = []
@@ -191,6 +191,7 @@ def read_csvp(src_path, sps_overide=False):
             if key_map.get(index) != None:
                 data[key_map.get(index)]=int(row[0])
             index += 1
+        print(data)
     if sps_overide:
         data['ACCEL_SPS'] = 2000
     return data
