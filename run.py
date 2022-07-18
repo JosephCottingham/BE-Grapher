@@ -49,6 +49,7 @@ layout = [
         ],
         [sg.Text('SPS Overide (2000 SPS): '), sg.Checkbox('', default=True)],
         [sg.Text('Enable Point Annotation '), sg.Checkbox('', default=True)],
+        [sg.Text('Custom Title: ', size =(15, 3)), sg.InputText()],
         # [sg.Listbox(values=['Welcome Drink', 'Extra Cushions', 'Organic Diet','Blanket', 'Neck Rest'], select_mode='extended', key='fac', size=(30, 6))],
         [sg.Text('No Error', key='-ERROR-')],
         [sg.Button("Create Graph")],
@@ -91,11 +92,12 @@ while True:
                 axis_index += 1
         sps_overide = bool(values[14])
         point_annoations = bool(values[15])
+        custom_title = values[16]
 
         # th = threading.Thread(target=graph_data,  args=(src_file, resolution, moving_avg_window))
         # th.start()
         if (event == "Create Graph"):
-            plot_id = graph_data(src_files, resolution, moving_avg_window, color_map, axis_map, sps_overide=sps_overide, point_annoations=point_annoations)
+            plot_id = graph_data(src_files, resolution, moving_avg_window, color_map, axis_map, sps_overide=sps_overide, point_annoations=point_annoations, custom_title=custom_title)
             remove_all([plot_id, ])
         if (event == "Update Graph"):
-            plot_id = graph_data(src_files, resolution, moving_avg_window, color_map, axis_map, update=True, plot_id=plot_id, sps_overide=sps_overide, point_annoations=point_annoations)
+            plot_id = graph_data(src_files, resolution, moving_avg_window, color_map, axis_map, update=True, plot_id=plot_id, sps_overide=sps_overide, point_annoations=point_annoations, custom_title=custom_title)

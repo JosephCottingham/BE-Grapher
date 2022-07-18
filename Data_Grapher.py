@@ -38,7 +38,7 @@ def remove_all(save=[]):
             plt.figure(plot_id)
             plt.close()
     
-def graph_data(src_paths, resolution, moving_avg_window, color_map, axis_map, update=False, plot_id=0, sps_overide=False, point_annoations=False):
+def graph_data(src_paths, resolution, moving_avg_window, color_map, axis_map, update=False, plot_id=0, sps_overide=False, point_annoations=False, custom_title=''):
     global master_point_annoations
     master_point_annoations = point_annoations
 
@@ -62,7 +62,7 @@ def graph_data(src_paths, resolution, moving_avg_window, color_map, axis_map, up
             'csvp':csvp
         }
 
-    title = f'res: {resolution} MVA: {moving_avg_window}'
+    title = f'{ custom_title } | res: {resolution} MVA: {moving_avg_window}'
     
     update_graph(plot_id, graph_data, resolution, title, color_map, axis_map, clear=update)
     
